@@ -1,6 +1,6 @@
 'use client'
 
-import { Course } from '@/payload-types'
+import { Course, Module, Lesson } from '@/payload-types'
 import { CourseSidebar } from './sidebar'
 import { LessonContent } from './lesson-content'
 import React from 'react'
@@ -43,21 +43,24 @@ export const CourseView: React.FC<CourseViewProps> = ({ course }) => {
     }
   }
 
-  const courseMetaData: Course = transformToCourseMetaData(course)
+  const courseMetaData: CourseSimple = transformToCourseMetaData(course)
 
-  const [activeLesson, setActiveLesson] = React.useState(3)
+  const [activeLesson, setActiveLesson] = React.useState(
+    // @ts-ignore
+    (course.modules[0] as Module).lessons[0].id,
+  )
 
-  const findLessonById = (course: Course, lessonId: number): Lesson | null => {
-    for (const module of course.modules) {
-      const lesson = module.lessons.find((lesson) => lesson.id === lessonId)
-      if (lesson) {
-        return lesson
-      }
-    }
-    return null
+  const findLessonById = (lessonId: number): Lesson | null => {
+    const modules = course.modules as Module[]
+
+    return (
+      modules
+        .map((module) => (module.lessons as Lesson[]).find((lesson) => lesson.id === lessonId))
+        .find((lesson) => lesson !== undefined) || null
+    )
   }
 
-  const lesson = findLessonById(course, activeLesson) // Replace 3 with the desired lesson ID
+  const lesson = findLessonById(activeLesson) // Replace 3 with the desired lesson ID
 
   // const [activeLesson, setActiveLesson] = useState('introduction')
   // const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -71,16 +74,14 @@ export const CourseView: React.FC<CourseViewProps> = ({ course }) => {
       <div className="flex flex-col md:flex-row relative">
         {/* Main content - full width on mobile */}
         <main className="flex-1 overflow-y-auto order-1 md:order-2 border-l-0 md:border-l">
-          <LessonContent lesson={lesson} />
+          <LessonContent lesson={lesson as Lesson} />
         </main>
-
         {/*Sidebar - bottom on mobile, left on desktop*/}
         <CourseSidebar
           courseMetaData={courseMetaData}
           setActiveLesson={setActiveLesson}
-          activeLesson={'1'}
+          activeLesson={activeLesson}
           isOpen={sidebarOpen}
-          set
         />
       </div>
     </div>

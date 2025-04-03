@@ -2,6 +2,7 @@
 import { Lesson } from '@/payload-types'
 import { Button } from '@/components/ui/button'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
 interface LessonContentProps {
   lesson: Lesson
@@ -17,7 +18,7 @@ export function LessonContent({ lesson }: LessonContentProps) {
 
       {/* Main lesson content */}
       <div className="prose prose-slate dark:prose-invert max-w-none mb-8">
-        <RichText data={lesson.content} />
+        <RichText data={lesson.content as SerializedEditorState} />
       </div>
 
       {/* Navigation controls */}

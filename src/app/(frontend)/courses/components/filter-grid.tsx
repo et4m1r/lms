@@ -13,28 +13,27 @@ interface FilterAndGridProps {
 export const FilterAndGrid: React.FC<FilterAndGridProps> = ({ products, categories }) => {
   const [filteredCourses, setFilteredCourses] = useState(products)
   const [activeFilters, setActiveFilters] = useState({
-    framework: [],
     category: [],
-    deployment: [],
   })
 
   const handleFilterChange = (filters: any) => {
     setActiveFilters(filters)
 
     let filtered = [...products]
-
-    if (filters.framework.length > 0) {
-      filtered = filtered.filter((course) => filters.framework.includes(products.course.categories))
-    }
-
     if (filters.category.length > 0) {
-      filtered = filtered.filter((course) => filters.category.includes(products.course.categories))
-    }
+      filtered = filtered.filter((product) => {
+        const course = product.course as Course
 
-    if (filters.deployment.length > 0) {
-      filtered = filtered.filter((course) => filters.deployment.includes(products.course.categories))
+        return (
+          course.categories &&
+          course.categories.some((category) =>
+            filters.category.includes(
+              (category as Category).title.toLowerCase().replace(/\s+/g, ''),
+            ),
+          )
+        )
+      })
     }
-
     setFilteredCourses(filtered)
   }
 

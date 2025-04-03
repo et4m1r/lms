@@ -3,25 +3,25 @@
 import * as React from 'react'
 import {
   BookOpen,
-  Check,
+  // Check,
   ChevronDown,
   ChevronUp,
   GraduationCap,
-  Menu,
-  PlayCircle,
+  // Menu,
+  // PlayCircle,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 
 type Lesson = {
-  lessonId: number
-  lessonTitle: string
+  id: number
+  title: string
 }
 
 type Module = {
-  moduleId: number
-  moduleTitle: string
+  id: number
+  title: string
   lessons: Lesson[]
 }
 
@@ -33,9 +33,9 @@ type Course = {
 }
 
 interface CourseSidebarProps {
-  courseMetaData: Course[]
-  setActiveLesson: (lessonId: string) => void
-  activeLesson: string
+  courseMetaData: Course
+  setActiveLesson: (lessonId: number) => void
+  activeLesson: number
   isOpen: boolean
 }
 
@@ -45,16 +45,16 @@ export function CourseSidebar({
   activeLesson,
   isOpen,
 }: CourseSidebarProps) {
-  const [progressValue, setProgressValue] = React.useState(0)
+  // const [progressValue, setProgressValue] = React.useState(0)
   const [mobileExpanded, setMobileExpanded] = React.useState(false)
 
   // Animate progress value on mount
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setProgressValue(courseMetaData.progress)
-    }, 100)
-    return () => clearTimeout(timer)
-  }, [])
+  // React.useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setProgressValue(courseMetaData.progress)
+  //   }, 100)
+  //   return () => clearTimeout(timer)
+  // }, [])
 
   const toggleMobileExpanded = () => {
     setMobileExpanded((prev) => !prev)
@@ -77,8 +77,8 @@ export function CourseSidebar({
             <div className="flex flex-col gap-0.5 text-left">
               <span className="font-semibold text-sm">{courseMetaData.title}</span>
               <div className="flex items-center gap-2">
-                <Progress value={progressValue} className="h-1.5 w-24" />
-                <span className="text-xs text-muted-foreground">{progressValue}%</span>
+                {/*<Progress value={progressValue} className="h-1.5 w-24" />*/}
+                {/*<span className="text-xs text-muted-foreground">{progressValue}%</span>*/}
               </div>
             </div>
           </div>
@@ -119,16 +119,16 @@ export function CourseSidebar({
                             setMobileExpanded(false) // Close sidebar after selection on mobile
                           }}
                         >
-                          <div className="flex items-center w-full">
-                            {lesson.completed ? (
-                              <div className="mr-2 h-3 w-3 rounded-full bg-green-500 flex items-center justify-center">
-                                <Check className="h-2 w-2 text-white" />
-                              </div>
-                            ) : (
-                              <PlayCircle className="mr-2 h-3 w-3 flex-shrink-0" />
-                            )}
-                            <span className="truncate">{lesson.title}</span>
-                          </div>
+                          {/*<div className="flex items-center w-full">*/}
+                          {/*  {lesson.completed ? (*/}
+                          {/*    <div className="mr-2 h-3 w-3 rounded-full bg-green-500 flex items-center justify-center">*/}
+                          {/*      <Check className="h-2 w-2 text-white" />*/}
+                          {/*    </div>*/}
+                          {/*  ) : (*/}
+                          {/*    <PlayCircle className="mr-2 h-3 w-3 flex-shrink-0" />*/}
+                          {/*  )}*/}
+                          {/*  <span className="truncate">{lesson.title}</span>*/}
+                          {/*</div>*/}
                         </Button>
                       ))}
                     </div>
@@ -153,11 +153,11 @@ export function CourseSidebar({
             </div>
             <div className="flex flex-col gap-0.5 text-left">
               <span className="font-semibold">{courseMetaData.title}</span>
-              <span className="text-xs text-muted-foreground">Progress: {progressValue}%</span>
+              {/*<span className="text-xs text-muted-foreground">Progress: {progressValue}%</span>*/}
             </div>
           </div>
           <div className="px-4 pb-2">
-            <Progress value={progressValue} className="h-2" />
+            {/*<Progress value={progressValue} className="h-2" />*/}
           </div>
         </div>
 
@@ -185,13 +185,13 @@ export function CourseSidebar({
                       }}
                     >
                       <div className="flex items-center w-full">
-                        {lesson.completed ? (
-                          <div className="mr-2 h-4 w-4 rounded-full bg-green-500 flex items-center justify-center">
-                            <Check className="h-3 w-3 text-white" />
-                          </div>
-                        ) : (
-                          <PlayCircle className="mr-2 h-4 w-4 flex-shrink-0" />
-                        )}
+                        {/*{lesson.completed ? (*/}
+                        {/*  <div className="mr-2 h-4 w-4 rounded-full bg-green-500 flex items-center justify-center">*/}
+                        {/*    <Check className="h-3 w-3 text-white" />*/}
+                        {/*  </div>*/}
+                        {/*) : (*/}
+                        {/*  <PlayCircle className="mr-2 h-4 w-4 flex-shrink-0" />*/}
+                        {/*)}*/}
                         <span className="truncate">{lesson.title}</span>
                       </div>
                     </Button>

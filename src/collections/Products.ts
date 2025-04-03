@@ -24,6 +24,7 @@ export const Products: CollectionConfig = {
       name: 'course',
       type: 'relationship',
       relationTo: 'courses',
+      required: true,
       hasMany: false,
     },
     {

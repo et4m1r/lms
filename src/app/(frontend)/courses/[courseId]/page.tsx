@@ -1,4 +1,3 @@
-import { Course, Category } from '@/payload-types'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { CourseView } from '@/app/(frontend)/courses/[courseId]/components/course-view'

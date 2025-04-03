@@ -64,7 +64,6 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
-    students: StudentAuthOperations;
   };
   blocks: {};
   collections: {
@@ -106,37 +105,15 @@ export interface Config {
   globals: {};
   globalsSelect: {};
   locale: null;
-  user:
-    | (User & {
-        collection: 'users';
-      })
-    | (Student & {
-        collection: 'students';
-      });
+  user: User & {
+    collection: 'users';
+  };
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
 export interface UserAuthOperations {
-  forgotPassword: {
-    email: string;
-    password: string;
-  };
-  login: {
-    email: string;
-    password: string;
-  };
-  registerFirstUser: {
-    email: string;
-    password: string;
-  };
-  unlock: {
-    email: string;
-    password: string;
-  };
-}
-export interface StudentAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -469,16 +446,13 @@ export interface Lesson {
  */
 export interface Student {
   id: number;
+  email: string;
+  fullName: string;
+  provider: string;
+  providerAccountId: string;
+  imageUrl?: string | null;
   updatedAt: string;
   createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * Student course enrollments
@@ -610,7 +584,7 @@ export interface Product {
   id: number;
   name: string;
   description: string;
-  course?: (number | null) | Course;
+  course: number | Course;
   productStatus: 'active' | 'inactive';
   productPrice: {
     price: number;
@@ -687,15 +661,10 @@ export interface PayloadLockedDocument {
         value: number | Category;
       } | null);
   globalSlug?: string | null;
-  user:
-    | {
-        relationTo: 'users';
-        value: number | User;
-      }
-    | {
-        relationTo: 'students';
-        value: number | Student;
-      };
+  user: {
+    relationTo: 'users';
+    value: number | User;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -705,15 +674,10 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user:
-    | {
-        relationTo: 'users';
-        value: number | User;
-      }
-    | {
-        relationTo: 'students';
-        value: number | Student;
-      };
+  user: {
+    relationTo: 'users';
+    value: number | User;
+  };
   key?: string | null;
   value?:
     | {
@@ -901,15 +865,13 @@ export interface LessonsSelect<T extends boolean = true> {
  * via the `definition` "students_select".
  */
 export interface StudentsSelect<T extends boolean = true> {
+  email?: T;
+  fullName?: T;
+  provider?: T;
+  providerAccountId?: T;
+  imageUrl?: T;
   updatedAt?: T;
   createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,5 +1,19 @@
-import type { CollectionConfig, CollectionSlug } from 'payload'
+import type { CollectionConfig } from 'payload'
+import {
+  BlocksFeature,
+  LinkFeature,
+  UploadFeature,
+  FixedToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 
+export const languages = {
+  ts: 'TypeScript',
+  tsx: 'TSX',
+  js: 'JavaScript',
+  jsx: 'JSX',
+  html: 'HTML',
+}
 export const Lessons: CollectionConfig = {
   slug: 'lessons',
   admin: {
@@ -22,15 +36,6 @@ export const Lessons: CollectionConfig = {
         description: 'The title of the lesson',
       },
     },
-    // {
-    //   name: 'module',
-    //   type: 'relationship',
-    //   relationTo: 'modules' as CollectionSlug,
-    //   required: true,
-    //   admin: {
-    //     description: 'The module this lesson belongs to',
-    //   },
-    // },
     {
       name: 'order',
       type: 'number',
@@ -101,6 +106,39 @@ export const Lessons: CollectionConfig = {
       name: 'content',
       type: 'richText',
       required: true,
+      editor: lexicalEditor({
+        features: ({ defaultFeatures, rootFeatures }) => [
+          ...defaultFeatures,
+          FixedToolbarFeature(),
+          BlocksFeature({
+            blocks: [
+              {
+                slug: 'Code',
+                fields: [
+                  {
+                    type: 'select',
+                    name: 'language',
+                    options: Object.entries(languages).map(([key, value]) => ({
+                      label: value,
+                      value: key,
+                    })),
+                    defaultValue: 'ts',
+                  },
+                  {
+                    admin: {
+                      components: {
+                        Field: '@/components/CodeComponent#Code',
+                      },
+                    },
+                    name: 'code',
+                    type: 'code',
+                  },
+                ],
+              },
+            ],
+          }),
+        ],
+      }),
       admin: {
         description: 'Lesson content in rich text format',
         condition: (data) => data.type === 'reading',
