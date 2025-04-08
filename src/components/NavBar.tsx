@@ -1,6 +1,6 @@
 'use client'
 import { ModeToggle } from '@/components/theme-toggle'
-import { CommandIcon } from 'lucide-react'
+import { StarsIcon } from 'lucide-react'
 import Link from 'next/link'
 import { buttonVariants } from './ui/button'
 import Anchor from './anchor'
@@ -95,8 +95,8 @@ export function Navbar({ user }: { user: User }) {
 export function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2.5">
-      <CommandIcon className="w-6 h-6 text-muted-foreground" strokeWidth={2} />
-      <h2 className="text-md font-bold font-code">AriaDocs</h2>
+      <StarsIcon className="w-6 h-6 text-muted-foreground" strokeWidth={2} />
+      <h2 className="text-md font-bold font-code">lms</h2>
     </Link>
   )
 }
