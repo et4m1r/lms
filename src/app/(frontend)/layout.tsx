@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import { ThemeProvider } from '@/components/contexts/theme-provider'
-import { Navbar } from '@/components/NavBar'
+import { Navbar } from '@/components/navbar'
 import { Space_Mono, Space_Grotesk } from 'next/font/google'
 import { Footer } from '@/components/footer'
 import '@/styles/globals.css'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { NavigationProvider } from '@/context/navbar-context'
 
 const sansFont = Space_Grotesk({
   subsets: ['latin'],
@@ -53,9 +54,10 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar user={session?.user} />
-
-          <main className="sm:container mx-auto w-[90vw] h-auto scroll-smooth">{children}</main>
+          <NavigationProvider>
+            <Navbar user={session?.user} />
+            <main className="sm:container mx-auto w-[90vw] h-auto scroll-smooth">{children}</main>
+          </NavigationProvider>
           <Footer />
         </ThemeProvider>
       </body>

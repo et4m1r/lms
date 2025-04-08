@@ -1,19 +1,14 @@
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet'
-import { Logo, NavMenu } from './NavBar'
+import { Logo, NavMenu } from './navbar'
 import { Button } from './ui/button'
 import { AlignLeftIcon } from 'lucide-react'
 import { FooterButtons } from './footer'
 import { DialogTitle } from './ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import CourseMenu from './course-menu'
-import { EachRoute } from '@/lib/routes-config'
+import { NavBarProps } from '@/context/navbar-setup'
 
-interface LeftbarProps {
-  key?: React.Key | null | undefined
-  data: EachRoute | undefined
-}
-
-export function Leftbar({ data }: LeftbarProps) {
+export function Leftbar({ data }: NavBarProps) {
   return (
     <aside className="md:flex hidden w-[20rem] sticky top-16 flex-col h-[93.75vh] overflow-y-auto">
       <ScrollArea className="py-4 px-2">{data && <CourseMenu data={data} />}</ScrollArea>
@@ -21,7 +16,7 @@ export function Leftbar({ data }: LeftbarProps) {
   )
 }
 
-export function SheetLeftbar() {
+export function SheetLeftbar({ data }: NavBarProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -40,10 +35,8 @@ export function SheetLeftbar() {
           <div className="flex flex-col gap-2.5 mt-3 mx-2 px-5">
             <NavMenu isSheet />
           </div>
-          <div className="ml-2 pl-5">{/*<CourseMenu  isSheet />*/}</div>
-          <div className="p-6 pb-4 flex gap-2.5">
-            {/*<FooterButtons />*/}
-          </div>
+          <div className="ml-2 pl-5">{data && <CourseMenu isSheet data={data} />}</div>
+          <div className="p-6 pb-4 flex gap-2.5">{/*<FooterButtons />*/}</div>
         </div>
       </SheetContent>
     </Sheet>

@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useNavigation } from '@/context/navbar-context'
 
 export const NAVLINKS = [
   {
@@ -37,11 +38,13 @@ export type User =
   | undefined
 
 export function Navbar({ user }: { user: User }) {
+  const { navigationProps } = useNavigation()
+
   return (
     <nav className="w-full border-b h-16 sticky top-0 z-50 bg-background">
       <div className="sm:container mx-auto w-[95vw] h-full flex items-center sm:justify-between md:gap-2">
         <div className="flex items-center sm:gap-5 gap-2.5">
-          <SheetLeftbar />
+          <SheetLeftbar data={navigationProps.data} />
           <div className="flex items-center gap-6">
             <div className="lg:flex hidden">
               <Logo />

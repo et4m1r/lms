@@ -17,6 +17,7 @@ import React from 'react'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/hljs'
+import ClientNavigationSetup from '@/context/navbar-setup'
 
 type PageProps = {
   params: Promise<{ slug: string[] }>
@@ -157,6 +158,7 @@ export default async function CoursePage(props: PageProps) {
 
   return (
     <div className="flex items-start gap-8">
+      <ClientNavigationSetup navbarProps={{ data: courseMetaData }} />
       <Leftbar key="leftbar" data={courseMetaData} />
       {lesson && (
         <div className="flex-[5.25]">
