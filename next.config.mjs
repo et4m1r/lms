@@ -6,7 +6,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'img.freepik.com/**',
+        hostname: 'caxmltwcjw0u59uz.public.blob.vercel-storage.com',
       },
     ],
   },
