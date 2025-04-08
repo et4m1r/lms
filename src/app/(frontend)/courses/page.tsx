@@ -33,7 +33,7 @@ export default async function CoursesIndexPage() {
 
     const productsArray: ProductMdxFrontmatter[] = products.docs.map((doc: Product) => {
       const course = doc.course as Course
-      const imageUrl = (course.thumbnail as Media).url || ''
+      const imageUrl = (doc.productImage as Media).url || ''
       const categoryName =
         course.categories && course.categories?.length > 0
           ? (course.categories[0] as Category).title
@@ -81,23 +81,21 @@ function ProductCard({
   courseId,
 }: ProductMdxFrontmatter) {
   return (
-    <Link
-      // href={`/checkout/${productId}`}
-      href={`/courses/${courseId}`}
-      className="flex flex-col gap-2 items-start border rounded-md py-5 px-3 min-h-[400px]"
-    >
-      <h3 className="text-md font-semibold -mt-1 pr-7">{title}</h3>
-      <div className="w-full">
-        <Image
-          src={cover}
-          alt={title}
-          width={400}
-          height={150}
-          quality={80}
-          className="w-full rounded-md object-cover h-[180px] border"
-        />
-      </div>
-      <p className="text-sm text-muted-foreground">{description}</p>
+    <div className="flex flex-col gap-2 items-start border rounded-md py-5 px-3 min-h-[400px]">
+      <Link  href={`/courses/${productId}`}>
+        <h3 className="text-md font-semibold -mt-1 pr-7">{title}</h3>
+        <div className="w-full">
+          <Image
+            src={cover}
+            alt={title}
+            width={400}
+            height={150}
+            quality={80}
+            className="w-full rounded-md object-cover h-[180px] border"
+          />
+        </div>
+        <p className="text-sm text-muted-foreground">{description}</p>
+      </Link>
       <div className="flex items-center justify-between w-full mt-auto">
         <p className="text-[13px] text-secondary-foreground">{categoryName}</p>
         <Link
@@ -114,6 +112,6 @@ function ProductCard({
           </span>
         </Link>
       </div>
-    </Link>
+    </div>
   )
 }
