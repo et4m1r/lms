@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { use } from 'react'
+import Link from 'next/link'
 import {
   Card,
   CardContent,
@@ -122,8 +123,6 @@ export default function Page({ params }: { params: Promise<Params> }) {
           }),
         })
 
-        console.log(paymentRes)
-
         if (!paymentRes.ok) throw new Error('Failed to create payment intent')
         const { clientSecret } = await paymentRes.json()
         setClientSecret(clientSecret)
@@ -160,7 +159,7 @@ export default function Page({ params }: { params: Promise<Params> }) {
           </CardHeader>
           <CardFooter>
             <Button asChild className="w-full">
-              <a href="/courses">Back to Courses</a>
+              <Link href="/courses">Back to Courses</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -173,7 +172,7 @@ export default function Page({ params }: { params: Promise<Params> }) {
       <Card className="max-w-md mx-auto">
         <CardHeader>
           <CardTitle>Complete Your Purchase</CardTitle>
-          <CardDescription>You're enrolling in {product.title}</CardDescription>
+          <CardDescription>You&#39;re enrolling in {product.title}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="mb-6">

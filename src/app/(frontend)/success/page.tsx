@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { CheckCircle } from 'lucide-react'
+import Link from 'next/link'
 
 export default function SuccessPage() {
   const searchParams = useSearchParams()
@@ -64,7 +65,7 @@ export default function SuccessPage() {
           </CardHeader>
           <CardFooter>
             <Button asChild className="w-full">
-              <a href="/courses">Back to Courses</a>
+              <Link href="/courses">Back to Courses</Link>
             </Button>
           </CardFooter>
         </Card>

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { payload } from '@/lib/payload'
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const product = await payload.findByID({
@@ -14,7 +14,6 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     }
 
     return NextResponse.json(product)
-
   } catch (error) {
     console.error('Error fetching product:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

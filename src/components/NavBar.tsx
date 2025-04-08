@@ -1,108 +1,129 @@
 'use client'
+import { ModeToggle } from '@/components/theme-toggle'
+import { CommandIcon } from 'lucide-react'
 import Link from 'next/link'
-import { Home, Menu, LogOut } from 'lucide-react'
-import { useSession, signOut } from 'next-auth/react'
+import { buttonVariants } from './ui/button'
+import Anchor from './anchor'
+import { SheetLeftbar } from './leftbar'
+import { SheetClose } from '@/components/ui/sheet'
+import { signOut } from 'next-auth/react'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
-export function TopNavbar() {
-  const { data: session } = useSession() // Get session from next-auth
+export const NAVLINKS = [
+  {
+    title: 'Courses',
+    href: '/courses',
+  },
+  {
+    title: 'Dashboard',
+    href: '/dashboard',
+  },
+]
+
+export type User =
+  | {
+      name?: string | null
+      email?: string | null
+      image?: string | null
+    }
+  | null
+  | undefined
+
+export function Navbar({ user }: { user: User }) {
   return (
-    <div className="border-b z-20 bg-white">
-      <div className="mx-auto h-16 w-full max-w-5xl flex items-center px-4">
-        {/* Mobile menu */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="mr-2 md:hidden">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle sidebar</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-[240px] sm:w-[300px]">
-            <div className="flex flex-col gap-6 py-4">
-              <div className="flex items-center gap-2 font-semibold">
-                <Home className="h-5 w-5" />
-                <span>Learning Platform</span>
-              </div>
-              <nav className="flex flex-col space-y-3">
-                <Link
-                  href="/"
-                  className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary"
-                >
-                  Home
-                </Link>
-                <Link
-                  href="/courses"
-                  className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                >
-                  My Courses
-                </Link>
-              </nav>
+    <nav className="w-full border-b h-16 sticky top-0 z-50 bg-background">
+      <div className="sm:container mx-auto w-[95vw] h-full flex items-center sm:justify-between md:gap-2">
+        <div className="flex items-center sm:gap-5 gap-2.5">
+          <SheetLeftbar />
+          <div className="flex items-center gap-6">
+            <div className="lg:flex hidden">
+              <Logo />
             </div>
-          </SheetContent>
-        </Sheet>
-
-        {/* Logo */}
-        <div className="flex items-center gap-2 font-semibold">
-          <Home className="h-5 w-5" />
-          <span className="hidden sm:inline">Learning Platform</span>
+            <div className="md:flex hidden items-center gap-4 text-sm font-medium text-muted-foreground">
+              <NavMenu />
+            </div>
+          </div>
         </div>
-
-        {/* Desktop navigation */}
-        <nav className="mx-6 hidden md:flex items-center space-x-4 lg:space-x-6">
-          <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
-            Home
-          </Link>
-          <Link
-            href="/courses"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            My Courses
-          </Link>
-        </nav>
-
-        <div className="ml-auto flex items-center space-x-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage
-                    src={session?.user?.image || '/placeholder.svg'}
-                    alt={session?.user?.name || 'User'}
-                  />
-                  <AvatarFallback>{session?.user?.name?.charAt(0) || 'U'}</AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">
-                    {session?.user?.name || 'Guest'}
-                  </p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    {session?.user?.email || 'guest@example.com'}
-                  </p>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer">
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className="flex items-center sm:justify-normal justify-between sm:gap-3 ml-1 sm:w-fit w-[90%]">
+          <div className="flex items-center justify-between sm:gap-2">
+            <div className="flex ml-4 sm:ml-0">
+              {user && user.name && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Avatar className="cursor-pointer">
+                      {user.image ? (
+                        <AvatarImage src={user.image} alt={user.name} />
+                      ) : (
+                        <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
+                      )}
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <div className="px-4 py-2">
+                      <div className="font-medium">{user.name}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {/* Add user email or other info here if available */}
+                      </div>
+                    </div>
+                    <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer">
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+              {!user && (
+                <Link href="/login" className={buttonVariants({ variant: 'ghost' })}>
+                  Log In
+                </Link>
+              )}
+              <ModeToggle />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </nav>
+  )
+}
+
+export function Logo() {
+  return (
+    <Link href="/" className="flex items-center gap-2.5">
+      <CommandIcon className="w-6 h-6 text-muted-foreground" strokeWidth={2} />
+      <h2 className="text-md font-bold font-code">AriaDocs</h2>
+    </Link>
+  )
+}
+
+export function NavMenu({ isSheet = false }) {
+  return (
+    <>
+      {NAVLINKS.map((item) => {
+        const Comp = (
+          <Anchor
+            key={item.title + item.href}
+            activeClassName="!text-primary dark:font-medium font-semibold"
+            absolute
+            className="flex items-center gap-1 sm:text-sm text-[14.5px] dark:text-stone-300/85 text-stone-800"
+            href={item.href}
+          >
+            {item.title}
+          </Anchor>
+        )
+        return isSheet ? (
+          <SheetClose key={item.title + item.href} asChild>
+            {Comp}
+          </SheetClose>
+        ) : (
+          Comp
+        )
+      })}
+    </>
   )
 }
