@@ -1,5 +1,5 @@
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet'
-import { Logo, NavMenu } from './navbar'
+import { Logo, NavMenu } from './NavBar'
 import { Button } from './ui/button'
 import { AlignLeftIcon } from 'lucide-react'
 import { FooterButtons } from './footer'
