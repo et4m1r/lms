@@ -26,8 +26,15 @@ async function getSubscriptions() {
     })
 
     // Get first user if exists
-    const user = subscription.docs.length > 0 ? subscription.docs[0].student : null
+    let user = subscription.docs.length > 0 ? subscription.docs[0].student : null
     const courses = subscription.docs.map((doc: Subscription) => (doc.product as Product).course)
+
+    if (!user) {
+      user = await payload.findByID({
+        collection: 'students',
+        id: session.user.id,
+      })
+    }
 
     return {
       user,
@@ -57,11 +64,26 @@ export default async function DashboardPage() {
             courses and keep building your skills one lesson at a time. You&#39;ve got this!
           </p>
         </div>
-        <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-4 mb-5">
-          {courses.map((course: Course) => (
-            <CourseCard {...course} key={course.id} />
-          ))}
-        </div>
+
+        {courses.length > 0 ? (
+          <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-4 mb-5">
+            {courses.map((course: Course) => (
+              <CourseCard {...course} key={course.id} />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center w-full mt-10 gap-4">
+            <p className="text-lg text-muted-foreground text-center">
+              No subscriptions yet. Start your journey today!
+            </p>
+            <Link
+              href="/courses"
+              className="px-4 py-2 bg-primary text-white rounded-sm font-semibold hover:bg-primary/90 transition"
+            >
+              Browse Courses
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   )
