@@ -5,7 +5,7 @@ import { payload } from '@/lib/payload'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '')
 
 export async function POST(req: NextRequest) {
-  const signature = req.headers.get('signature')
+  const signature = req.headers.get('stripe-signature')
 
   if (!signature) {
     return NextResponse.json({ error: 'Missing signature' }, { status: 400 })
@@ -32,12 +32,12 @@ export async function POST(req: NextRequest) {
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
         const subscription = event.data.object as Stripe.Subscription
-        await handleSubscriptionChange(subscription)
+        // await handleSubscriptionChange(subscription)
         break
 
       case 'customer.subscription.deleted':
         const deletedSubscription = event.data.object as Stripe.Subscription
-        await handleSubscriptionCancellation(deletedSubscription)
+        // await handleSubscriptionCancellation(deletedSubscription)
         break
 
       default:
@@ -52,41 +52,52 @@ export async function POST(req: NextRequest) {
 }
 
 async function handleSuccessfulPayment(paymentIntent: Stripe.PaymentIntent) {
-  const { courseId, userId } = paymentIntent.metadata
+  const { productId, studentId } = paymentIntent.metadata
 
-  if (!courseId || !userId) {
+  if (!productId || !studentId) {
     console.error('Missing metadata in payment intent')
     return
   }
 
   try {
     // Get user
-    const user = await payload.findByID({
-      collection: 'users',
-      id: userId,
+    const student = await payload.findByID({
+      collection: 'students',
+      id: studentId,
     })
 
-    if (!user) {
-      console.error('User not found:', userId)
+    if (!student) {
+      console.error('User not found:', studentId)
       return
     }
 
-    // Add course to user's purchased courses
-    const purchasedCourses = [...(user.purchasedCourses || []), courseId]
-    await payload.update({
-      collection: 'users',
-      id: userId,
-      data: {
-        purchasedCourses,
-      },
+    // Get user
+    const product = await payload.findByID({
+      collection: 'products',
+      id: productId,
     })
+
+    if (!product) {
+      console.error('Product not found:', productId)
+      return
+    }
+
+    // // Add course to user's purchased courses
+    // const purchasedCourses = [...(user.purchasedCourses || []), courseId]
+    // await payload.update({
+    //   collection: 'users',
+    //   id: userId,
+    //   data: {
+    //     purchasedCourses,
+    //   },
+    // })
 
     // Create subscription record
     await payload.create({
       collection: 'subscriptions',
       data: {
-        user: userId,
-        course: courseId,
+        student: student,
+        product: product,
         stripeSubscriptionId: paymentIntent.id, // Using payment intent ID as reference
         status: 'active',
         startDate: new Date().toISOString(),

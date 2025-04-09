@@ -15,6 +15,19 @@ export async function POST(req: Request) {
 
     const { productId, priceId } = await req.json()
 
+    // Get user from database
+    const student = await payload.findByID({
+      collection: 'students',
+      id: session.user.id,
+    })
+
+    if (!student) {
+      return NextResponse.json(
+        { error: 'User not found or not set up for payments' },
+        { status: 400 },
+      )
+    }
+
     // Get course from database
     const product = await payload.findByID({
       collection: 'products',
@@ -43,6 +56,7 @@ export async function POST(req: Request) {
       currency: currency,
       metadata: {
         productId,
+        studentId: student.id,
       },
     })
 

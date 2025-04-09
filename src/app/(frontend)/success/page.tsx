@@ -91,7 +91,7 @@ export default function SuccessPage() {
         </CardContent>
         <CardFooter className="flex flex-col space-y-2">
           <Button asChild className="w-full">
-            <a href={`/dashboard/courses/${productId}`}>Start Learning</a>
+            <a href={`/courses/${productId}`}>Start Learning</a>
           </Button>
           <Button asChild variant="outline" className="w-full">
             <a href="/dashboard">Go to Dashboard</a>

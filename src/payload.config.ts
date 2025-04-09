@@ -12,7 +12,6 @@ import { Courses } from './collections/Courses'
 import { Students } from '@/collections/Students'
 import { Modules } from '@/collections/Modules'
 import { Lessons } from '@/collections/Lessons'
-import { Enrollments } from '@/collections/Enrollments'
 import { Progress } from '@/collections/Progress'
 import { Products } from '@/collections/Products'
 import { Subscriptions } from '@/collections/Subscriptions'
@@ -35,7 +34,6 @@ export default buildConfig({
     Modules,
     Lessons,
     Students,
-    Enrollments,
     Progress,
     Products,
     Subscriptions,

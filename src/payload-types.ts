@@ -73,7 +73,6 @@ export interface Config {
     modules: Module;
     lessons: Lesson;
     students: Student;
-    enrollments: Enrollment;
     progress: Progress;
     products: Product;
     subscriptions: Subscription;
@@ -90,7 +89,6 @@ export interface Config {
     modules: ModulesSelect<false> | ModulesSelect<true>;
     lessons: LessonsSelect<false> | LessonsSelect<true>;
     students: StudentsSelect<false> | StudentsSelect<true>;
-    enrollments: EnrollmentsSelect<false> | EnrollmentsSelect<true>;
     progress: ProgressSelect<false> | ProgressSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     subscriptions: SubscriptionsSelect<false> | SubscriptionsSelect<true>;
@@ -455,46 +453,6 @@ export interface Student {
   createdAt: string;
 }
 /**
- * Student course enrollments
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "enrollments".
- */
-export interface Enrollment {
-  id: number;
-  /**
-   * The enrolled student
-   */
-  student: number | Student;
-  /**
-   * The course being enrolled in
-   */
-  course: number | Course;
-  status: 'active' | 'completed' | 'dropped' | 'pending';
-  /**
-   * When the enrollment was created
-   */
-  enrolledAt: string;
-  /**
-   * When the student started the course
-   */
-  startedAt?: string | null;
-  /**
-   * When the student completed the course
-   */
-  completedAt?: string | null;
-  /**
-   * When the student dropped the course
-   */
-  droppedAt?: string | null;
-  /**
-   * When the enrollment expires
-   */
-  expiresAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * Student progress in courses
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -602,9 +560,10 @@ export interface Product {
 export interface Subscription {
   id: number;
   status?: ('active' | 'inactive') | null;
+  stripeSubscriptionId?: string | null;
   startDate: string;
-  endDate: string;
-  user?: (number | null) | Student;
+  endDate?: string | null;
+  student?: (number | null) | Student;
   product?: (number | null) | Product;
   updatedAt: string;
   createdAt: string;
@@ -639,10 +598,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'students';
         value: number | Student;
-      } | null)
-    | ({
-        relationTo: 'enrollments';
-        value: number | Enrollment;
       } | null)
     | ({
         relationTo: 'progress';
@@ -875,22 +830,6 @@ export interface StudentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "enrollments_select".
- */
-export interface EnrollmentsSelect<T extends boolean = true> {
-  student?: T;
-  course?: T;
-  status?: T;
-  enrolledAt?: T;
-  startedAt?: T;
-  completedAt?: T;
-  droppedAt?: T;
-  expiresAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "progress_select".
  */
 export interface ProgressSelect<T extends boolean = true> {
@@ -955,9 +894,10 @@ export interface ProductsSelect<T extends boolean = true> {
  */
 export interface SubscriptionsSelect<T extends boolean = true> {
   status?: T;
+  stripeSubscriptionId?: T;
   startDate?: T;
   endDate?: T;
-  user?: T;
+  student?: T;
   product?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -24,6 +24,11 @@ export const Subscriptions: CollectionConfig = {
       ],
     },
     {
+      name: 'stripeSubscriptionId',
+      type: 'text',
+      required: false,
+    },
+    {
       name: 'startDate',
       type: 'date',
       required: true,
@@ -32,11 +37,11 @@ export const Subscriptions: CollectionConfig = {
     {
       name: 'endDate',
       type: 'date',
-      required: true,
+      required: false,
       label: 'End Date',
     },
     {
-      name: 'user',
+      name: 'student',
       type: 'relationship',
       relationTo: 'students',
       hasMany: false,
@@ -49,4 +54,3 @@ export const Subscriptions: CollectionConfig = {
     },
   ],
 }
-

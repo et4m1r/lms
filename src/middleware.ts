@@ -14,7 +14,8 @@ export async function middleware(req: NextRequest) {
     pathname.endsWith('.jpeg') ||
     pathname.endsWith('.svg') ||
     pathname.endsWith('.css') ||
-    pathname.endsWith('.js')
+    pathname.endsWith('.js') ||
+    pathname.startsWith('/api/webhook')
   ) {
     return NextResponse.next()
   }

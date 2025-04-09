@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@docsearch/react": "^3.9.0",
-    "@payloadcms/db-postgres": "3.31.0",
+    "@payloadcms/db-postgres": "3.33.0",
     "@payloadcms/next": "3.33.0",
     "@payloadcms/plugin-stripe": "^3.33.0",
     "@payloadcms/richtext-lexical": "3.33.0",
@@ -43,7 +43,7 @@
     "next-auth": "^4.24.11",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.3.0",
-    "payload": "3.31.0",
+    "payload": "3.33.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-syntax-highlighter": "^15.6.1",
