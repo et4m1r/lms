@@ -15,6 +15,7 @@ export default async function CoursesIndexPage() {
   try {
     const products = await payload.find({
       collection: 'products',
+      depth: 2,
     })
 
     if (!products || products.totalDocs == 0) {
@@ -82,7 +83,8 @@ function ProductCard({
 }: ProductMdxFrontmatter) {
   return (
     <div className="flex flex-col gap-2 items-start border rounded-md py-5 px-3 min-h-[400px]">
-      <Link  href={`/courses/${productId}`}>
+      <Link href={`/courses/${courseId}`}>Fake Link</Link>
+      <Link href={`/checkout/${productId}`}>
         <h3 className="text-md font-semibold -mt-1 pr-7">{title}</h3>
         <div className="w-full">
           <Image

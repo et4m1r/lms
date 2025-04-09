@@ -1,4 +1,4 @@
-import type { CollectionConfig, CollectionSlug } from 'payload'
+import payload, { CollectionConfig, CollectionSlug } from 'payload'
 
 export const Courses: CollectionConfig = {
   slug: 'courses',
@@ -12,7 +12,31 @@ export const Courses: CollectionConfig = {
   versions: {
     drafts: true,
   },
-  access: {},
+  access: {
+    read: async ({ req, id }) => {
+      if (!id || !req.user) return false
+
+      const subscriptions = await req.payload.find({
+        collection: 'subscriptions',
+        where: {
+          and: [
+            {
+              'student.id': {
+                equals: req.user?.id,
+              },
+            },
+            {
+              'product.course.id': {
+                equals: id,
+              },
+            },
+          ],
+        },
+      })
+
+      return !(subscriptions && subscriptions.totalDocs === 0)
+    },
+  },
   fields: [
     {
       name: 'title',
