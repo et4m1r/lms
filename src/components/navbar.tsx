@@ -4,7 +4,7 @@ import { StarsIcon } from 'lucide-react'
 import Link from 'next/link'
 import { buttonVariants } from './ui/button'
 import Anchor from './anchor'
-import { SheetLeftbar } from './leftbar'
+import { SheetLeftbar } from './sheet-leftbar'
 import { SheetClose } from '@/components/ui/sheet'
 import { signOut } from 'next-auth/react'
 
@@ -44,7 +44,7 @@ export function Navbar({ user }: { user: User }) {
     <nav className="w-full border-b h-16 sticky top-0 z-50 bg-background">
       <div className="sm:container mx-auto w-[95vw] h-full flex items-center sm:justify-between md:gap-2">
         <div className="flex items-center sm:gap-5 gap-2.5">
-          <SheetLeftbar data={navigationProps.data} />
+          <SheetLeftbar data={navigationProps.data} progress={navigationProps.progress} />
           <div className="flex items-center gap-6">
             <div className="lg:flex hidden">
               <Logo />

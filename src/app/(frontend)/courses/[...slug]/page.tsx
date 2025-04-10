@@ -5,6 +5,7 @@ import ClientNavigationSetup from '@/context/navbar-setup'
 import { Leftbar } from '@/components/leftbar'
 import CourseContent from './course-content'
 import { createCourseMetaData } from '@/lib/course/course-utils'
+import { fetchCourseProgress } from '@/lib/course/progress-utils'
 import { checkCourseAccess } from '@/lib/course/access-control'
 import { NoAccess } from '@/components/course/no-access'
 import type { EachRoute } from '@/lib/routes-config'
@@ -34,6 +35,9 @@ export default async function CoursePage(props: PageProps) {
   // Check if the user has access to this course
   const accessCheck = await checkCourseAccess(courseId)
 
+  // Fetch course progress data
+  const progress = await fetchCourseProgress(courseId)
+
   // Create metadata for sidebar navigation
   const courseMetaData: EachRoute = createCourseMetaData(course)
 
@@ -56,8 +60,8 @@ export default async function CoursePage(props: PageProps) {
 
   return (
     <div className="flex items-start gap-8">
-      <ClientNavigationSetup navbarProps={{ data: courseMetaData }} />{' '}
-      <Leftbar key="leftbar" data={courseMetaData} />
+      <ClientNavigationSetup navbarProps={{ data: courseMetaData, progress }} />{' '}
+      <Leftbar key="leftbar" data={courseMetaData} progress={progress} />
       <div className="flex-[5.25]">
         {accessCheck.hasAccess && lesson ? (
           <CourseContent

@@ -1,125 +1,124 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig } from "payload"
 
 export const Progress: CollectionConfig = {
-  slug: 'progress',
+  slug: "progress",
   admin: {
-    useAsTitle: 'id',
-    group: 'Learning',
-    defaultColumns: ['student', 'course', 'status', 'overallProgress'],
-    description: 'Student progress in courses',
+    useAsTitle: "id",
+    group: "Learning",
+    defaultColumns: ["student", "course", "status", "overallProgress"],
+    description: "Student progress in courses",
   },
-  access: {
-  },
+  access: {},
   fields: [
     {
-      name: 'student',
-      type: 'relationship',
-      relationTo: 'students',
-      required: true,
+      name: "student",
+      type: "relationship",
+      relationTo: "students",
+      required: false,
       admin: {
-        description: 'The student whose progress this is',
+        description: "The student whose progress this is",
       },
     },
     {
-      name: 'course',
-      type: 'relationship',
-      relationTo: 'courses',
+      name: "course",
+      type: "relationship",
+      relationTo: "courses",
       required: true,
       admin: {
-        description: 'The course this progress is for',
+        description: "The course this progress is for",
       },
     },
     {
-      name: 'status',
-      type: 'select',
+      name: "status",
+      type: "select",
       required: true,
-      defaultValue: 'not_started',
+      defaultValue: "not_started",
       options: [
-        { label: 'Not Started', value: 'not_started' },
-        { label: 'In Progress', value: 'in_progress' },
-        { label: 'Completed', value: 'completed' },
+        { label: "Not Started", value: "not_started" },
+        { label: "In Progress", value: "in_progress" },
+        { label: "Completed", value: "completed" },
       ],
     },
     {
-      name: 'overallProgress',
-      type: 'number',
+      name: "overallProgress",
+      type: "number",
       required: true,
       min: 0,
       max: 100,
       defaultValue: 0,
       admin: {
-        description: 'Overall progress percentage in the course',
+        description: "Overall progress percentage in the course",
       },
     },
     {
-      name: 'pointsEarned',
-      type: 'number',
+      name: "pointsEarned",
+      type: "number",
       required: true,
       min: 0,
       defaultValue: 0,
       admin: {
-        description: 'Total points earned in this course',
+        description: "Total points earned in this course",
       },
     },
     {
-      name: 'totalPoints',
-      type: 'number',
+      name: "totalPoints",
+      type: "number",
       required: true,
       min: 0,
       defaultValue: 0,
       admin: {
-        description: 'Total points earned across all courses',
+        description: "Total points earned across all courses",
       },
     },
     {
-      name: 'startedAt',
-      type: 'date',
+      name: "startedAt",
+      type: "date",
       required: true,
       admin: {
-        description: 'When the student started the course',
+        description: "When the student started the course",
       },
     },
     {
-      name: 'completedAt',
-      type: 'date',
+      name: "completedAt",
+      type: "date",
       admin: {
-        description: 'When the student completed the course',
+        description: "When the student completed the course",
       },
     },
     {
-      name: 'lastAccessed',
-      type: 'date',
+      name: "lastAccessed",
+      type: "date",
       required: true,
       admin: {
-        description: 'When the student last accessed the course',
+        description: "When the student last accessed the course",
       },
     },
     {
-      name: 'moduleProgress',
-      type: 'array',
+      name: "moduleProgress",
+      type: "array",
       admin: {
-        description: 'Progress in individual modules',
+        description: "Progress in individual modules",
       },
       fields: [
         {
-          name: 'module',
-          type: 'relationship',
-          relationTo: 'modules',
+          name: "module",
+          type: "relationship",
+          relationTo: "modules",
           required: true,
         },
         {
-          name: 'status',
-          type: 'select',
+          name: "status",
+          type: "select",
           required: true,
           options: [
-            { label: 'Not Started', value: 'not_started' },
-            { label: 'In Progress', value: 'in_progress' },
-            { label: 'Completed', value: 'completed' },
+            { label: "Not Started", value: "not_started" },
+            { label: "In Progress", value: "in_progress" },
+            { label: "Completed", value: "completed" },
           ],
         },
         {
-          name: 'progress',
-          type: 'number',
+          name: "progress",
+          type: "number",
           required: true,
           min: 0,
           max: 100,
@@ -127,60 +126,138 @@ export const Progress: CollectionConfig = {
       ],
     },
     {
-      name: 'quizAttempts',
-      type: 'array',
+      name: "lessonProgress",
+      type: "array",
       admin: {
-        description: 'Quiz attempts and scores',
+        description: "Progress in individual lessons",
       },
       fields: [
         {
-          name: 'lesson',
-          type: 'relationship',
-          relationTo: 'lessons',
+          name: "lesson",
+          type: "relationship",
+          relationTo: "lessons",
+          required: true,
+        },
+        {
+          name: "status",
+          type: "select",
+          required: true,
+          options: [
+            { label: "Not Started", value: "not_started" },
+            { label: "In Progress", value: "in_progress" },
+            { label: "Completed", value: "completed" },
+          ],
+        },
+        {
+          name: "lastAccessed",
+          type: "date",
+          admin: {
+            description: "When the student last accessed this lesson",
+          },
+        },
+        {
+          name: "completedAt",
+          type: "date",
+          admin: {
+            description: "When the student completed this lesson",
+          },
+        },
+        {
+          name: "timeSpent",
+          type: "number",
+          min: 0,
+          admin: {
+            description: "Time spent on this lesson in minutes",
+          },
+        },
+        {
+          name: "notes",
+          type: "textarea",
+          admin: {
+            description: "Student notes for this lesson",
+          },
+        },
+      ],
+    },
+    {
+      name: "quizAttempts",
+      type: "array",
+      admin: {
+        description: "Quiz attempts and scores",
+      },
+      fields: [
+        {
+          name: "lesson",
+          type: "relationship",
+          relationTo: "lessons",
           required: true,
           admin: {
-            description: 'The lesson containing the quiz',
+            description: "The lesson containing the quiz",
             condition: (data, siblingData) => {
-              return data?.type === 'quiz'
+              return data?.type === "quiz"
             },
           },
         },
         {
-          name: 'score',
-          type: 'number',
+          name: "score",
+          type: "number",
           required: true,
           min: 0,
           max: 100,
         },
         {
-          name: 'completedAt',
-          type: 'date',
+          name: "completedAt",
+          type: "date",
           required: true,
+        },
+        {
+          name: "answers",
+          type: "array",
+          admin: {
+            description: "Student answers to quiz questions",
+          },
+          fields: [
+            {
+              name: "questionIndex",
+              type: "number",
+              required: true,
+            },
+            {
+              name: "answer",
+              type: "text",
+              required: true,
+            },
+            {
+              name: "correct",
+              type: "checkbox",
+              required: true,
+            },
+          ],
         },
       ],
     },
     {
-      name: 'discussions',
-      type: 'array',
+      name: "discussions",
+      type: "array",
       admin: {
-        description: 'Discussion participation',
+        description: "Discussion participation",
       },
       fields: [
         {
-          name: 'lesson',
-          type: 'relationship',
-          relationTo: 'lessons',
+          name: "lesson",
+          type: "relationship",
+          relationTo: "lessons",
           required: true,
           admin: {
-            description: 'The lesson containing the discussion',
+            description: "The lesson containing the discussion",
             condition: (data, siblingData) => {
-              return data?.type === 'discussion'
+              return data?.type === "discussion"
             },
           },
         },
         {
-          name: 'participatedAt',
-          type: 'date',
+          name: "participatedAt",
+          type: "date",
           required: true,
         },
       ],

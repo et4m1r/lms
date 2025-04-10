@@ -463,7 +463,7 @@ export interface Progress {
   /**
    * The student whose progress this is
    */
-  student: number | Student;
+  student?: (number | null) | Student;
   /**
    * The course this progress is for
    */
@@ -505,6 +505,32 @@ export interface Progress {
       }[]
     | null;
   /**
+   * Progress in individual lessons
+   */
+  lessonProgress?:
+    | {
+        lesson: number | Lesson;
+        status: 'not_started' | 'in_progress' | 'completed';
+        /**
+         * When the student last accessed this lesson
+         */
+        lastAccessed?: string | null;
+        /**
+         * When the student completed this lesson
+         */
+        completedAt?: string | null;
+        /**
+         * Time spent on this lesson in minutes
+         */
+        timeSpent?: number | null;
+        /**
+         * Student notes for this lesson
+         */
+        notes?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Quiz attempts and scores
    */
   quizAttempts?:
@@ -515,6 +541,17 @@ export interface Progress {
         lesson?: (number | null) | Lesson;
         score: number;
         completedAt: string;
+        /**
+         * Student answers to quiz questions
+         */
+        answers?:
+          | {
+              questionIndex: number;
+              answer: string;
+              correct: boolean;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -850,12 +887,31 @@ export interface ProgressSelect<T extends boolean = true> {
         progress?: T;
         id?: T;
       };
+  lessonProgress?:
+    | T
+    | {
+        lesson?: T;
+        status?: T;
+        lastAccessed?: T;
+        completedAt?: T;
+        timeSpent?: T;
+        notes?: T;
+        id?: T;
+      };
   quizAttempts?:
     | T
     | {
         lesson?: T;
         score?: T;
         completedAt?: T;
+        answers?:
+          | T
+          | {
+              questionIndex?: T;
+              answer?: T;
+              correct?: T;
+              id?: T;
+            };
         id?: T;
       };
   discussions?:

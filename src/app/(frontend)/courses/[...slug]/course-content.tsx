@@ -55,7 +55,7 @@ export default function CourseContent({
                 {lesson.description}
               </p>
               <RichText converters={jsxConverters} data={lesson.content as SerializedEditorState} />
-              <Pagination prev={prev} next={next} />
+              <Pagination prev={prev} next={next} courseId={courseId} moduleId={moduleId} lessonId={lessonId} />
             </Typography>
           </div>
         </div>
