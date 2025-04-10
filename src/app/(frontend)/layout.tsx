@@ -23,10 +23,10 @@ const monoFont = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'AriaDocs - Template',
-  metadataBase: new URL('https://ariadocs.vercel.app/'),
+  title: 'LMS',
+  metadataBase: new URL('https://lms-two.vercel.app/'),
   description:
-    'This comprehensive documentation template, crafted with Next.js and available as open-source, delivers a sleek and responsive design, tailored to meet all your project documentation requirements.',
+    'An LMS platform developed using Payload CMS.',
 }
 
 export default async function RootLayout({
