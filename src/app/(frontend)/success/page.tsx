@@ -29,7 +29,7 @@ export default function SuccessPage() {
 
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`/api/products/${productId}`)
+        const res = await fetch(`/api/get-products/${productId}`)
         if (!res.ok) throw new Error('Course not found')
         const data = await res.json()
         setProduct(data)

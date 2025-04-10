@@ -98,7 +98,7 @@ export default function Page({ params }: { params: Promise<Params> }) {
   useEffect(() => {
     const fetchProductAndCreateIntent = async () => {
       try {
-        const productRes = await fetch(`/api/products/${id}`)
+        const productRes = await fetch(`/api/get-products/${id}`)
         if (!productRes.ok) throw new Error('Product not found')
 
         const productData = await productRes.json()

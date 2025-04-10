@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, CollectionSlug } from 'payload'
 import {
   BlocksFeature,
   LinkFeature,
@@ -19,7 +19,7 @@ export const Lessons: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     group: 'Learning',
-    defaultColumns: ['title', 'module', 'type', 'status'],
+    defaultColumns: ['course', 'module', 'title', 'type', 'status'],
     description: 'Individual lessons within modules',
     listSearchableFields: ['title'],
   },
@@ -100,6 +100,15 @@ export const Lessons: CollectionConfig = {
           },
         },
       ],
+    },
+    {
+      name: 'module',
+      type: 'relationship',
+      relationTo: 'modules' as CollectionSlug,
+      hasMany: false,
+      admin: {
+        description: 'The course this module belongs to',
+      },
     },
     // Reading specific fields
     {

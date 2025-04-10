@@ -303,6 +303,10 @@ export interface Lesson {
     transcript?: string | null;
   };
   /**
+   * The course this module belongs to
+   */
+  module?: (number | null) | Module;
+  /**
    * Lesson content in rich text format
    */
   content?: {
@@ -781,6 +785,7 @@ export interface LessonsSelect<T extends boolean = true> {
         duration?: T;
         transcript?: T;
       };
+  module?: T;
   content?: T;
   quiz?:
     | T
