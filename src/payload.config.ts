@@ -16,6 +16,7 @@ import { Progress } from '@/collections/Progress'
 import { Products } from '@/collections/Products'
 import { Subscriptions } from '@/collections/Subscriptions'
 import { Categories } from '@/collections/Categories'
+import { Test } from './collections/Test'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -38,6 +39,7 @@ export default buildConfig({
     Products,
     Subscriptions,
     Categories,
+    Test,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
