@@ -14,8 +14,9 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
-    "ci": "pnpm migrate && pnpm build"
+    "ci": "payload migrate && pnpm build"
   },
+  "packageManager": "pnpm@10.7.1",
   "dependencies": {
     "@docsearch/react": "^3.9.0",
     "@payloadcms/db-postgres": "3.33.0",
