@@ -15,5 +15,11 @@ export const Test: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'title1',
+      label: 'Title1',
+      type: 'text',
+      required: true,
+    },
   ],
 }
