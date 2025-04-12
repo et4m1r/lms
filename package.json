@@ -16,7 +16,7 @@
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
     "ci": "payload migrate && pnpm build"
   },
-  "packageManager": "pnpm@10.7.1",
+  "packageManager": "pnpm@10.8.0",
   "dependencies": {
     "@docsearch/react": "^3.9.0",
     "@payloadcms/db-postgres": "3.33.0",
@@ -47,6 +47,7 @@
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.3.0",
     "payload": "3.33.0",
+    "pnpm": "^10.8.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-syntax-highlighter": "^15.6.1",
